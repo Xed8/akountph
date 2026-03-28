@@ -1,7 +1,11 @@
+import Link from 'next/link'
 import { requireOrg } from '@/lib/auth/require-org'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { FileText } from 'lucide-react'
+import { FileText, Download, FolderOpen, Calendar } from 'lucide-react'
+import { cn } from '@/lib/utils'
+
+const currentYear = new Date().getFullYear()
 
 const BIR_REPORTS = [
   {
@@ -10,6 +14,7 @@ const BIR_REPORTS = [
     frequency: 'Monthly',
     due: '10th of following month',
     category: 'Payroll',
+    action: null,
   },
   {
     form: '2316',
@@ -17,6 +22,7 @@ const BIR_REPORTS = [
     frequency: 'Annual (per employee)',
     due: 'January 31',
     category: 'Payroll',
+    action: null,
   },
   {
     form: '1604-C',
@@ -24,6 +30,7 @@ const BIR_REPORTS = [
     frequency: 'Annual',
     due: 'January 31',
     category: 'Payroll',
+    action: null,
   },
   {
     form: 'Alphalist',
@@ -31,6 +38,7 @@ const BIR_REPORTS = [
     frequency: 'Annual',
     due: 'January 31',
     category: 'Payroll',
+    action: { label: `Download ${currentYear} CSV`, href: `/api/reports/alphalist?year=${currentYear}`, download: true },
   },
   {
     form: '2550M',
@@ -38,6 +46,7 @@ const BIR_REPORTS = [
     frequency: 'Monthly (optional)',
     due: '20th of following month',
     category: 'VAT',
+    action: null,
   },
   {
     form: '2550Q',
@@ -45,6 +54,15 @@ const BIR_REPORTS = [
     frequency: 'Quarterly',
     due: '25th day after quarter end',
     category: 'VAT',
+    action: { label: 'View VAT Summary', href: '/reports/vat', download: false },
+  },
+  {
+    form: 'P&L',
+    name: 'Profit & Loss — Monthly Income Statement',
+    frequency: 'Monthly',
+    due: 'Anytime',
+    category: 'Income Tax',
+    action: { label: 'View P&L Report', href: '/reports/pl', download: false },
   },
   {
     form: '1701Q',
@@ -52,6 +70,31 @@ const BIR_REPORTS = [
     frequency: 'Quarterly',
     due: '60th day after quarter',
     category: 'Income Tax',
+    action: null,
+  },
+  {
+    form: 'Expenses',
+    name: 'Expense Summary — Monthly Breakdown by Category',
+    frequency: 'Monthly',
+    due: 'Anytime',
+    category: 'Income Tax',
+    action: { label: 'View Expense Summary', href: '/reports/expenses', download: false },
+  },
+  {
+    form: '2307',
+    name: 'Certificate of Creditable Tax Withheld at Source (EWT)',
+    frequency: 'Quarterly',
+    due: '20th day after quarter end',
+    category: 'EWT',
+    action: { label: 'View EWT Summary', href: '/reports/ewt', download: false },
+  },
+  {
+    form: '1601-EQ',
+    name: 'Quarterly Remittance Return of Creditable Income Taxes Withheld',
+    frequency: 'Quarterly',
+    due: 'Last day of month after quarter',
+    category: 'EWT',
+    action: null,
   },
 ]
 
@@ -61,31 +104,86 @@ export default async function ReportsPage() {
   const categories = [...new Set(BIR_REPORTS.map(r => r.category))]
 
   return (
-    <div className="p-8">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">BIR Reports</h1>
-        <p className="text-gray-500 mt-1">Filing calendar and report status</p>
+    <div className="p-8 max-w-7xl mx-auto space-y-8 pb-24">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 mb-1">Reports Center</h1>
+          <p className="text-sm text-zinc-500">
+            Generate, download, and track your essential BIR filing documents.
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-md shadow-sm flex items-center gap-2 text-white">
+             <Calendar className="w-4 h-4 text-zinc-400" />
+             <span className="text-sm font-medium whitespace-nowrap">Tax Year {currentYear}</span>
+          </div>
+        </div>
       </div>
 
-      <div className="space-y-8">
+      <div className="grid grid-cols-1 gap-12 pt-4">
         {categories.map(cat => (
           <section key={cat}>
-            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">{cat}</h2>
-            <div className="grid gap-3">
+            <div className="flex items-center gap-2 mb-6 text-zinc-900">
+              <FolderOpen className="w-5 h-5 text-zinc-400" />
+              <h2 className="text-lg font-semibold tracking-tight">{cat} Reports</h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
               {BIR_REPORTS.filter(r => r.category === cat).map(report => (
-                <Card key={report.form} className="flex items-start gap-4 p-4">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gray-100 shrink-0">
-                    <FileText className="h-5 w-5 text-gray-500" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="font-semibold text-sm">BIR Form {report.form}</span>
-                      <Badge variant="outline" className="text-xs">{report.frequency}</Badge>
+                <Card key={report.form} className="flex flex-col gap-4 p-5 border border-zinc-200 shadow-sm rounded-lg hover:shadow-md transition-shadow bg-white group">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center justify-center w-10 h-10 rounded-md bg-zinc-50 border border-zinc-200 shadow-sm shrink-0">
+                      <FileText className="h-5 w-5 text-zinc-500 group-hover:text-amber-600 transition-colors" />
                     </div>
-                    <p className="text-sm text-gray-600 mt-0.5">{report.name}</p>
-                    <p className="text-xs text-gray-400 mt-1">Due: {report.due}</p>
+                    {report.action ? (
+                      <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-emerald-50 text-emerald-700">Available</span>
+                    ) : (
+                      <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-zinc-100 text-zinc-600">Coming Soon</span>
+                    )}
                   </div>
-                  <Badge variant="secondary" className="shrink-0 text-xs">Coming soon</Badge>
+                  
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="font-semibold text-zinc-900 text-sm">Form {report.form}</span>
+                    </div>
+                    <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2" title={report.name}>
+                       {report.name}
+                    </p>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-zinc-100 flex flex-col gap-2">
+                     <div className="flex items-center justify-between text-xs">
+                        <span className="text-zinc-500 font-medium tracking-wide uppercase">Frequency</span>
+                        <span className="font-medium text-zinc-900">{report.frequency}</span>
+                     </div>
+                     <div className="flex items-center justify-between text-xs">
+                        <span className="text-zinc-500 font-medium tracking-wide uppercase">Deadline</span>
+                        <span className="font-medium text-amber-700">{report.due}</span>
+                     </div>
+                  </div>
+
+                  {report.action && (
+                    <div className="pt-2">
+                      {report.action.download ? (
+                        <a
+                          href={report.action.href}
+                          download
+                          className="flex items-center justify-center gap-2 w-full text-xs font-medium text-amber-700 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200/50 rounded-md px-3 py-2 transition-colors"
+                        >
+                          <Download className="h-3.5 w-3.5" />
+                          {report.action.label}
+                        </a>
+                      ) : (
+                        <Link
+                          href={report.action.href}
+                          className="flex items-center justify-center gap-2 w-full text-xs font-medium text-amber-700 hover:text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200/50 rounded-md px-3 py-2 transition-colors"
+                        >
+                          <FileText className="h-3.5 w-3.5" />
+                          {report.action.label}
+                        </Link>
+                      )}
+                    </div>
+                  )}
                 </Card>
               ))}
             </div>

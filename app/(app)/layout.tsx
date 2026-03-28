@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { Sidebar } from '@/components/sidebar'
+import { MobileHeader } from '@/components/mobile-header'
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -29,11 +30,16 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const orgName = (Array.isArray(orgs) ? orgs[0]?.name : orgs?.name) ?? 'My Business'
 
   return (
-    <div className="flex min-h-screen">
-      <Sidebar orgName={orgName} />
-      <main className="flex-1 bg-gray-50 overflow-y-auto">
-        {children}
-      </main>
+    <div className="flex min-h-screen bg-zinc-50">
+      <div className="hidden md:flex">
+        <Sidebar orgName={orgName} />
+      </div>
+      <div className="flex flex-col flex-1 min-w-0">
+        <MobileHeader orgName={orgName} />
+        <main className="flex-1 bg-white md:border-l border-zinc-200 overflow-y-auto">
+          {children}
+        </main>
+      </div>
     </div>
   )
 }

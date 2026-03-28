@@ -4,6 +4,7 @@ import { requireOrg } from '@/lib/auth/require-org'
 import { updateEmployee, archiveEmployee } from '@/app/actions/employees'
 import { EmployeeForm } from '@/components/employee-form'
 import { ChevronLeft } from 'lucide-react'
+import { ConfirmButton } from '@/components/confirm-button'
 
 export default async function EditEmployeePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -30,15 +31,16 @@ export default async function EditEmployeePage({ params }: { params: Promise<{ i
         <h1 className="text-2xl font-bold text-gray-900">
           {employee.first_name} {employee.last_name}
         </h1>
-        <form action={archiveEmployee.bind(null, id)}>
-          <button
-            type="submit"
-            className="text-sm text-red-600 hover:underline"
-            onClick={e => { if (!confirm('Archive this employee?')) e.preventDefault() }}
-          >
-            Archive
-          </button>
-        </form>
+        <div className="flex items-center gap-4">
+          <Link href={`/employees/${id}/payslips`} className="text-sm text-blue-600 hover:underline">
+            Payslip history
+          </Link>
+          <form action={archiveEmployee.bind(null, id)}>
+            <ConfirmButton message="Archive this employee?" className="text-sm text-red-600 hover:underline">
+              Archive
+            </ConfirmButton>
+          </form>
+        </div>
       </div>
       <EmployeeForm action={updateWithId} employee={employee} submitLabel="Save Changes" />
     </div>

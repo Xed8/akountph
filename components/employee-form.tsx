@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { centavosToInputValue } from '@/lib/formatting/currency'
+import { TinInput, SssInput, PhilhealthInput, PagibigInput } from '@/components/formatted-inputs'
 
 interface Employee {
   id: string
@@ -33,6 +34,10 @@ interface EmployeeFormProps {
   submitLabel: string
 }
 
+// Philippine name: letters, spaces, hyphens, periods, apostrophes — at least 2 chars
+const NAME_PATTERN = "[A-Za-zÀ-ÖØ-öø-ÿ][A-Za-zÀ-ÖØ-öø-ÿ .\\-']{1,}"
+const NAME_TITLE = 'Enter a valid name (letters, spaces, hyphens, periods, apostrophes — at least 2 characters)'
+
 export function EmployeeForm({ action, employee, submitLabel }: EmployeeFormProps) {
   const [state, formAction, pending] = useActionState(action, null)
 
@@ -49,15 +54,30 @@ export function EmployeeForm({ action, employee, submitLabel }: EmployeeFormProp
         <CardContent className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <Label htmlFor="first_name">First name <span className="text-red-500">*</span></Label>
-            <Input id="first_name" name="first_name" required defaultValue={employee?.first_name} />
+            <Input
+              id="first_name" name="first_name" required
+              pattern={NAME_PATTERN} title={NAME_TITLE}
+              defaultValue={employee?.first_name}
+              placeholder="e.g. Juan"
+            />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="last_name">Last name <span className="text-red-500">*</span></Label>
-            <Input id="last_name" name="last_name" required defaultValue={employee?.last_name} />
+            <Input
+              id="last_name" name="last_name" required
+              pattern={NAME_PATTERN} title={NAME_TITLE}
+              defaultValue={employee?.last_name}
+              placeholder="e.g. Dela Cruz"
+            />
           </div>
           <div className="space-y-1.5 col-span-2">
             <Label htmlFor="middle_name">Middle name</Label>
-            <Input id="middle_name" name="middle_name" defaultValue={employee?.middle_name ?? ''} />
+            <Input
+              id="middle_name" name="middle_name"
+              pattern={NAME_PATTERN} title={NAME_TITLE}
+              defaultValue={employee?.middle_name ?? ''}
+              placeholder="e.g. Santos (optional)"
+            />
           </div>
         </CardContent>
       </Card>
@@ -67,7 +87,7 @@ export function EmployeeForm({ action, employee, submitLabel }: EmployeeFormProp
         <CardContent className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <Label htmlFor="position">Position / Job title</Label>
-            <Input id="position" name="position" defaultValue={employee?.position ?? ''} />
+            <Input id="position" name="position" defaultValue={employee?.position ?? ''} placeholder="e.g. Accountant" />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="employment_type">Employment type</Label>
@@ -109,7 +129,8 @@ export function EmployeeForm({ action, employee, submitLabel }: EmployeeFormProp
               id="monthly_basic_salary"
               name="monthly_basic_salary"
               type="number"
-              min="0"
+              min="0.01"
+              max="9999999.99"
               step="0.01"
               required
               defaultValue={employee ? centavosToInputValue(employee.monthly_basic_salary) : ''}
@@ -123,6 +144,7 @@ export function EmployeeForm({ action, employee, submitLabel }: EmployeeFormProp
               name="allowances"
               type="number"
               min="0"
+              max="9999999.99"
               step="0.01"
               defaultValue={employee ? centavosToInputValue(employee.allowances) : '0.00'}
             />
@@ -135,19 +157,19 @@ export function EmployeeForm({ action, employee, submitLabel }: EmployeeFormProp
         <CardContent className="grid grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <Label htmlFor="tin">TIN</Label>
-            <Input id="tin" name="tin" placeholder="000-000-000-000" defaultValue={employee?.tin ?? ''} />
+            <TinInput name="tin" defaultValue={employee?.tin} />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="sss_number">SSS Number</Label>
-            <Input id="sss_number" name="sss_number" placeholder="00-0000000-0" defaultValue={employee?.sss_number ?? ''} />
+            <SssInput name="sss_number" defaultValue={employee?.sss_number} />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="philhealth_number">PhilHealth Number</Label>
-            <Input id="philhealth_number" name="philhealth_number" placeholder="00-000000000-0" defaultValue={employee?.philhealth_number ?? ''} />
+            <PhilhealthInput name="philhealth_number" defaultValue={employee?.philhealth_number} />
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="pagibig_number">Pag-IBIG Number</Label>
-            <Input id="pagibig_number" name="pagibig_number" placeholder="0000-0000-0000" defaultValue={employee?.pagibig_number ?? ''} />
+            <PagibigInput name="pagibig_number" defaultValue={employee?.pagibig_number} />
           </div>
         </CardContent>
       </Card>
@@ -161,7 +183,13 @@ export function EmployeeForm({ action, employee, submitLabel }: EmployeeFormProp
           </div>
           <div className="space-y-1.5">
             <Label htmlFor="bank_account">Account number</Label>
-            <Input id="bank_account" name="bank_account" defaultValue={employee?.bank_account ?? ''} />
+            <Input
+              id="bank_account" name="bank_account"
+              placeholder="e.g. 1234567890"
+              pattern="[\\d\\s\\-]{6,20}"
+              title="Enter a valid bank account number (6–20 digits)"
+              defaultValue={employee?.bank_account ?? ''}
+            />
           </div>
         </CardContent>
       </Card>

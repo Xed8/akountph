@@ -4,7 +4,8 @@ import { centavosToDisplay } from '@/lib/formatting/currency'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { UserPlus } from 'lucide-react'
+import { UserPlus, Search, Building, MoreHorizontal, ArrowRight } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 export default async function EmployeesPage() {
   const { supabase, orgId } = await requireOrg()
@@ -17,60 +18,91 @@ export default async function EmployeesPage() {
     .order('last_name')
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-8 max-w-7xl mx-auto space-y-8 pb-24">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Employees</h1>
-          <p className="text-gray-500 mt-1">{employees?.length ?? 0} total</p>
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 mb-1">Team Directory</h1>
+          <p className="text-sm text-zinc-500">
+            Manage your employees and contractor data in one place.
+          </p>
         </div>
-        <Link href="/employees/new">
-          <Button><UserPlus className="h-4 w-4 mr-2" />Add employee</Button>
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/employees/new" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-blue-600 text-white hover:bg-blue-700 h-9 px-4 py-2 gap-2">
+            <UserPlus className="h-4 w-4" /> Add Employee
+          </Link>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-4 mb-2">
+         {/* Could add a Search Input or Filters here for future */}
+         <div className="px-3 py-1.5 bg-white border border-zinc-200 rounded-md shadow-sm flex items-center gap-2">
+            <Search className="w-4 h-4 text-zinc-400" />
+            <input type="text" placeholder="Search team members..." className="bg-transparent border-none outline-none text-sm text-zinc-900 placeholder:text-zinc-400 w-64" disabled />
+         </div>
+         <div className="px-3 py-1.5 bg-zinc-50 text-zinc-600 rounded-md text-sm font-medium border border-zinc-200">
+            {employees?.length ?? 0} {employees?.length === 1 ? 'Member' : 'Members'}
+         </div>
       </div>
 
       {!employees?.length ? (
-        <div className="border border-dashed rounded-lg flex flex-col items-center justify-center py-16 text-center">
-          <UserPlus className="h-10 w-10 text-gray-300 mb-4" />
-          <p className="font-medium text-gray-700">No employees yet</p>
-          <p className="text-sm text-gray-400 mt-1 mb-4">Add your first employee to start running payroll.</p>
-          <Link href="/employees/new"><Button>Add employee</Button></Link>
+        <div className="border border-zinc-200 rounded-lg bg-zinc-50 border-dashed p-12 text-center h-[300px] flex flex-col items-center justify-center">
+          <Building className="h-8 w-8 text-zinc-400 mb-3" />
+          <h3 className="text-sm font-semibold text-zinc-900 mb-1">No team members yet</h3>
+          <p className="text-xs text-zinc-500 mb-6 max-w-sm mx-auto">Add your first employee to start issuing payslips and tracking remittances.</p>
+          <Link href="/employees/new" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-blue-600 text-white hover:bg-blue-700 h-9 px-4 py-2">
+            Add First Employee
+          </Link>
         </div>
       ) : (
-        <div className="border rounded-lg overflow-hidden bg-white">
+        <div className="border border-zinc-200 rounded-lg overflow-hidden bg-white shadow-sm">
           <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Position</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Tax Status</TableHead>
-                <TableHead className="text-right">Monthly Salary</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead />
+            <TableHeader className="bg-zinc-50 border-b border-zinc-200">
+              <TableRow className="hover:bg-zinc-50 border-none">
+                <TableHead className="font-medium text-zinc-500 text-xs h-10">Employee Details</TableHead>
+                <TableHead className="font-medium text-zinc-500 text-xs">Role / Type</TableHead>
+                <TableHead className="font-medium text-zinc-500 text-xs">Tax Status</TableHead>
+                <TableHead className="text-right font-medium text-zinc-500 text-xs">Monthly Fixed Structure</TableHead>
+                <TableHead className="font-medium text-zinc-500 text-xs text-center">Status</TableHead>
+                <TableHead className="w-[60px]"></TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody>
+            <TableBody className="divide-y divide-zinc-100">
               {employees.map(emp => (
-                <TableRow key={emp.id}>
-                  <TableCell className="font-medium">
-                    {emp.last_name}, {emp.first_name}
+                <TableRow key={emp.id} className="hover:bg-zinc-50 transition-colors border-none">
+                  <TableCell className="py-3">
+                    <div className="flex items-center gap-3">
+                       <div className="w-8 h-8 rounded bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-600 text-xs font-medium shrink-0">
+                          {emp.first_name[0]}{emp.last_name[0]}
+                       </div>
+                       <div>
+                         <p className="font-medium text-zinc-900 text-sm">
+                           {emp.last_name}, {emp.first_name}
+                         </p>
+                         <p className="text-xs text-zinc-500">ID: {emp.id.split('-')[0].toUpperCase()}</p>
+                       </div>
+                    </div>
                   </TableCell>
-                  <TableCell className="text-gray-500">{emp.position ?? '—'}</TableCell>
-                  <TableCell className="capitalize text-gray-500">{emp.employment_type}</TableCell>
                   <TableCell>
-                    <Badge variant="outline">{emp.tax_status}</Badge>
-                  </TableCell>
-                  <TableCell className="text-right font-mono">
-                    {centavosToDisplay(emp.monthly_basic_salary)}
+                     <p className="font-medium text-zinc-900 text-sm">{emp.position ?? '—'}</p>
+                     <p className="capitalize text-xs text-zinc-500">{emp.employment_type}</p>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={emp.status === 'active' ? 'default' : 'secondary'}>
+                    <span className="bg-zinc-100 text-zinc-600 border border-zinc-200 text-[11px] font-medium px-2 py-0.5 rounded">
+                      {emp.tax_status}
+                    </span>
+                  </TableCell>
+                  <TableCell className="text-right">
+                     <p className="font-medium text-zinc-900 text-sm">{centavosToDisplay(emp.monthly_basic_salary)}</p>
+                     <p className="text-xs text-zinc-500">Basic Monthly</p>
+                  </TableCell>
+                  <TableCell className="text-center">
+                    <span className={cn("text-[11px] px-2 py-0.5 rounded font-medium capitalize", emp.status === 'active' ? "bg-emerald-50 text-emerald-700" : "bg-zinc-100 text-zinc-600")}>
                       {emp.status}
-                    </Badge>
+                    </span>
                   </TableCell>
-                  <TableCell>
-                    <Link href={`/employees/${emp.id}`} className="text-sm text-blue-600 hover:underline">
-                      Edit
+                  <TableCell className="text-right pr-4">
+                    <Link href={`/employees/${emp.id}`} className="inline-flex items-center justify-center w-8 h-8 rounded text-zinc-400 hover:bg-zinc-100 hover:text-blue-600 transition-colors">
+                      <ArrowRight className="h-4 w-4" />
                     </Link>
                   </TableCell>
                 </TableRow>
