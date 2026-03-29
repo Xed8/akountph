@@ -52,7 +52,7 @@ export function Sidebar({ orgName }: SidebarProps) {
   const pathname = usePathname()
 
   return (
-    <aside className="flex flex-col w-[240px] min-h-screen bg-[#0B1F3A] text-white shrink-0 transition-none">
+    <aside className="sticky top-0 flex flex-col w-[240px] h-screen bg-[#0B1F3A] text-white shrink-0 transition-none">
       {/* Header/Logo area */}
       <div className="flex h-14 items-center px-5 gap-3 border-b border-[#1e3a58]">
         <div className="flex items-center justify-center w-[34px] h-[34px] rounded-lg bg-[#00C48C] text-white font-extrabold text-[15px] shrink-0">
