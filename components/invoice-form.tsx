@@ -39,6 +39,20 @@ const EWT_RATES = [
   { label: 'Rent — 5%', value: '5' },
 ]
 
+// ATC codes for income (WI = Withholding on Income)
+const ATC_INCOME = [
+  { code: '',      label: '— None / Not applicable —' },
+  { code: 'WI010', label: 'WI010 — Professional fees (individuals) 10%' },
+  { code: 'WI011', label: 'WI011 — Professional fees (juridical) 15%' },
+  { code: 'WI020', label: 'WI020 — Rental (real property) 5%' },
+  { code: 'WI030', label: 'WI030 — Contractor / subcontractor 2%' },
+  { code: 'WI040', label: 'WI040 — Commission (individual) 10%' },
+  { code: 'WI050', label: 'WI050 — Income payments on purchases (goods) 1%' },
+  { code: 'WI060', label: 'WI060 — Income payments on purchases (services) 2%' },
+  { code: 'WI100', label: 'WI100 — Royalties (literary / musical / artistic) 10%' },
+  { code: 'WI110', label: 'WI110 — Prizes / winnings exceeding ₱10,000' },
+]
+
 function toCentavos(pesos: number) { return Math.round(pesos * 100) }
 function toPesos(centavos: number) { return centavos / 100 }
 
@@ -53,6 +67,7 @@ export function InvoiceForm({ clients, items: catalog, orgVatRegistered, default
     { description: '', quantity: 1, unit_price: 0, total: 0, is_vat_exempt: false },
   ])
   const [ewtRate, setEwtRate] = useState('0')
+  const [atcCode, setAtcCode] = useState('')
   const [clientVat, setClientVat] = useState(false)
 
   // Totals
@@ -116,6 +131,7 @@ export function InvoiceForm({ clients, items: catalog, orgVatRegistered, default
     const formData = new FormData(e.currentTarget as HTMLFormElement)
     formData.set('line_items', JSON.stringify(lines))
     formData.set('ewt_rate', ewtRate)
+    formData.set('atc_code', atcCode)
 
     startTransition(async () => {
       const result = await createInvoice(null, formData)
@@ -169,6 +185,19 @@ export function InvoiceForm({ clients, items: catalog, orgVatRegistered, default
                   {EWT_RATES.map(r => <SelectItem key={r.value} value={r.value}>{r.label}</SelectItem>)}
                 </SelectContent>
               </Select>
+            </div>
+
+            <div className="space-y-1.5 md:col-span-2">
+              <Label htmlFor="atc_code">ATC (Alphanumeric Tax Code)</Label>
+              <Select value={atcCode || '__none__'} onValueChange={v => setAtcCode(!v || v === '__none__' ? '' : v)}>
+                <SelectTrigger id="atc_code"><SelectValue placeholder="— None / Not applicable —" /></SelectTrigger>
+                <SelectContent>
+                  {ATC_INCOME.map(a => (
+                    <SelectItem key={a.code || '__none__'} value={a.code || '__none__'}>{a.label}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-gray-400">Required for 2307 / EWT filings</p>
             </div>
           </CardContent>
         </Card>

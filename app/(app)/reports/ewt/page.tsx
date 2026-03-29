@@ -38,7 +38,7 @@ export default async function EWTReportPage({
   // Invoices with EWT (client withholds from us — they issue 2307 to us)
   const { data: invoices } = await supabase
     .from('invoices')
-    .select('invoice_number, invoice_date, total_amount, ewt_rate, ewt_amount, clients(name, tin)')
+    .select('invoice_number, invoice_date, total_amount, ewt_rate, ewt_amount, atc_code, clients(name, tin)')
     .eq('organization_id', orgId)
     .gte('invoice_date', range.start)
     .lte('invoice_date', range.end)
@@ -49,7 +49,7 @@ export default async function EWTReportPage({
   // Expenses with EWT (we withhold from vendor — we issue 2307 to them)
   const { data: expenses } = await supabase
     .from('expenses')
-    .select('bill_number, expense_date, amount, ewt_rate, ewt_amount, vendors(name, tin)')
+    .select('bill_number, expense_date, amount, ewt_rate, ewt_amount, atc_code, vendors(name, tin)')
     .eq('organization_id', orgId)
     .gte('expense_date', range.start)
     .lte('expense_date', range.end)
@@ -117,6 +117,7 @@ export default async function EWTReportPage({
                 <th className="text-left px-4 py-2.5 font-medium text-gray-500">Invoice #</th>
                 <th className="text-left px-4 py-2.5 font-medium text-gray-500">Client</th>
                 <th className="text-left px-4 py-2.5 font-medium text-gray-500">Client TIN</th>
+                <th className="text-left px-4 py-2.5 font-medium text-gray-500">ATC</th>
                 <th className="text-left px-4 py-2.5 font-medium text-gray-500">Date</th>
                 <th className="text-right px-4 py-2.5 font-medium text-gray-500">Income</th>
                 <th className="text-right px-4 py-2.5 font-medium text-gray-500">EWT Rate</th>
@@ -131,6 +132,7 @@ export default async function EWTReportPage({
                     <td className="px-4 py-2.5 font-mono text-xs text-gray-700">{inv.invoice_number}</td>
                     <td className="px-4 py-2.5">{client?.name ?? '—'}</td>
                     <td className="px-4 py-2.5 font-mono text-xs text-gray-400">{client?.tin ?? '—'}</td>
+                    <td className="px-4 py-2.5 font-mono text-xs text-amber-700">{(inv as { atc_code?: string | null }).atc_code ?? '—'}</td>
                     <td className="px-4 py-2.5 text-gray-500">{inv.invoice_date}</td>
                     <td className="px-4 py-2.5 text-right font-mono">{centavosToDisplay(inv.total_amount)}</td>
                     <td className="px-4 py-2.5 text-right text-gray-500">{inv.ewt_rate}%</td>
@@ -141,7 +143,7 @@ export default async function EWTReportPage({
             </tbody>
             <tfoot className="border-t-2 bg-gray-50">
               <tr>
-                <td colSpan={6} className="px-4 py-2.5 font-semibold text-right text-gray-700">Total EWT Receivable</td>
+                <td colSpan={7} className="px-4 py-2.5 font-semibold text-right text-gray-700">Total EWT Receivable</td>
                 <td className="px-4 py-2.5 text-right font-mono font-bold text-green-700">{centavosToDisplay(totalEwtReceivable)}</td>
               </tr>
             </tfoot>
@@ -164,6 +166,7 @@ export default async function EWTReportPage({
                 <th className="text-left px-4 py-2.5 font-medium text-gray-500">Bill #</th>
                 <th className="text-left px-4 py-2.5 font-medium text-gray-500">Vendor</th>
                 <th className="text-left px-4 py-2.5 font-medium text-gray-500">Vendor TIN</th>
+                <th className="text-left px-4 py-2.5 font-medium text-gray-500">ATC</th>
                 <th className="text-left px-4 py-2.5 font-medium text-gray-500">Date</th>
                 <th className="text-right px-4 py-2.5 font-medium text-gray-500">Gross</th>
                 <th className="text-right px-4 py-2.5 font-medium text-gray-500">EWT Rate</th>
@@ -178,6 +181,7 @@ export default async function EWTReportPage({
                     <td className="px-4 py-2.5 font-mono text-xs text-gray-700">{exp.bill_number ?? '—'}</td>
                     <td className="px-4 py-2.5">{vendor?.name ?? '—'}</td>
                     <td className="px-4 py-2.5 font-mono text-xs text-gray-400">{vendor?.tin ?? '—'}</td>
+                    <td className="px-4 py-2.5 font-mono text-xs text-amber-700">{(exp as { atc_code?: string | null }).atc_code ?? '—'}</td>
                     <td className="px-4 py-2.5 text-gray-500">{exp.expense_date}</td>
                     <td className="px-4 py-2.5 text-right font-mono">{centavosToDisplay(exp.amount)}</td>
                     <td className="px-4 py-2.5 text-right text-gray-500">{exp.ewt_rate}%</td>
@@ -188,7 +192,7 @@ export default async function EWTReportPage({
             </tbody>
             <tfoot className="border-t-2 bg-gray-50">
               <tr>
-                <td colSpan={6} className="px-4 py-2.5 font-semibold text-right text-gray-700">Total EWT to Remit (1601-EQ)</td>
+                <td colSpan={7} className="px-4 py-2.5 font-semibold text-right text-gray-700">Total EWT to Remit (1601-EQ)</td>
                 <td className="px-4 py-2.5 text-right font-mono font-bold text-red-700">{centavosToDisplay(totalEwtPayable)}</td>
               </tr>
             </tfoot>

@@ -36,6 +36,20 @@ const EWT_RATES = [
   { label: 'Rentals — 5%', value: '5' },
 ]
 
+// ATC codes for creditable withholding on purchases (WC = Withholding on Compensation/Costs)
+const ATC_EXPENSE = [
+  { code: '',       label: '— None / Not applicable —' },
+  { code: 'WC010',  label: 'WC010 — Professional fees (individuals) 10%' },
+  { code: 'WC011',  label: 'WC011 — Professional fees (juridical) 15%' },
+  { code: 'WC020',  label: 'WC020 — Rental (real property) 5%' },
+  { code: 'WC030',  label: 'WC030 — Contractor / subcontractor 2%' },
+  { code: 'WC040',  label: 'WC040 — Commission (individual) 10%' },
+  { code: 'WC157',  label: 'WC157 — Purchases of goods (domestic) 1%' },
+  { code: 'WC158',  label: 'WC158 — Purchases of services (domestic) 2%' },
+  { code: 'WC160',  label: 'WC160 — Income payments to medical practitioners 15%' },
+  { code: 'WC120',  label: 'WC120 — Royalties (literary / musical) 10%' },
+]
+
 const PAYMENT_METHODS = [
   { label: 'Cash', value: 'cash' },
   { label: 'Bank Transfer', value: 'bank_transfer' },
@@ -49,6 +63,7 @@ export function BillForm({ action, vendors, categories }: BillFormProps) {
   const [amountStr, setAmountStr] = useState('')
   const [hasVat, setHasVat] = useState(false)
   const [ewtRate, setEwtRate] = useState(0)
+  const [atcCode, setAtcCode] = useState('')
 
   const expenseCategories = categories.filter(c => c.type === 'expense')
 
@@ -181,6 +196,22 @@ export function BillForm({ action, vendors, categories }: BillFormProps) {
                   <option key={r.value} value={r.value}>{r.label}</option>
                 ))}
               </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="atc_code">ATC (Alphanumeric Tax Code)</Label>
+              <select
+                id="atc_code"
+                name="atc_code"
+                value={atcCode}
+                onChange={e => setAtcCode(e.target.value)}
+                className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+              >
+                {ATC_EXPENSE.map(a => (
+                  <option key={a.code} value={a.code}>{a.label}</option>
+                ))}
+              </select>
+              <p className="text-xs text-gray-400">Required for 1601-EQ / EWT filings</p>
             </div>
 
             {/* Live tax preview */}

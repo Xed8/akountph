@@ -31,6 +31,7 @@ export async function createInvoice(prevState: { error: string } | null, formDat
   const dueDate = (formData.get('due_date') as string) || null
   const notes = (formData.get('notes') as string) || null
   const ewtRate = parseFloat((formData.get('ewt_rate') as string) || '0')
+  const atcCode = (formData.get('atc_code') as string) || null
 
   // Parse line items from formData (JSON-encoded array from client)
   let lineItems: InvoiceLineItem[] = []
@@ -85,6 +86,7 @@ export async function createInvoice(prevState: { error: string } | null, formDat
       total_amount: totalAmount,
       ewt_rate: ewtRate,
       ewt_amount: ewtAmount,
+      atc_code: atcCode,
       status: 'unpaid',
       paid_amount: 0,
       notes,

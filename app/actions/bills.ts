@@ -23,6 +23,7 @@ export async function createBill(prevState: { error: string } | null | void, for
   const vatAmount = hasVat ? Math.round(amount * (12 / 112)) : 0  // extract VAT from inclusive amount
 
   const ewtRate = parseFloat((formData.get('ewt_rate') as string) || '0') || 0
+  const atcCode = (formData.get('atc_code') as string) || null
   // EWT is computed on the amount exclusive of VAT
   const amountExVat = amount - vatAmount
   const ewtAmount = Math.round(amountExVat * (ewtRate / 100))
@@ -43,6 +44,7 @@ export async function createBill(prevState: { error: string } | null | void, for
       vat_amount: vatAmount,
       ewt_rate: ewtRate,
       ewt_amount: ewtAmount,
+      atc_code: atcCode,
       total_amount: totalAmount,
       status: 'received',
       paid_amount: 0,
