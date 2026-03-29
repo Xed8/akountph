@@ -30,13 +30,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const orgName = (Array.isArray(orgs) ? orgs[0]?.name : orgs?.name) ?? 'My Business'
 
   return (
-    <div className="flex min-h-screen bg-zinc-50">
+    <div className="flex min-h-screen bg-[#F4F7FB]">
       <div className="hidden md:flex">
         <Sidebar orgName={orgName} />
       </div>
       <div className="flex flex-col flex-1 min-w-0">
         <MobileHeader orgName={orgName} />
-        <main className="flex-1 bg-white md:border-l border-zinc-200 overflow-y-auto">
+        <main className="flex-1 bg-[#F4F7FB] overflow-y-auto">
           {children}
         </main>
       </div>

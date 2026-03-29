@@ -188,16 +188,16 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 mb-1">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 mb-1">
             Good morning, {firstName}
           </h1>
-          <p className="text-sm text-zinc-500">Here&apos;s what&apos;s happening at {orgName} today.</p>
+          <p className="text-sm text-slate-500">Here&apos;s what&apos;s happening at {orgName} today.</p>
         </div>
         <div className="flex items-center gap-3">
-          <Link href="/invoices/new" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50 h-9 px-4 py-2 gap-2">
+          <Link href="/invoices/new" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors border border-slate-200 bg-white text-slate-900 hover:bg-slate-50 h-9 px-4 py-2 gap-2">
             <Plus className="h-4 w-4" /> New Invoice
           </Link>
-          <Link href="/payroll/new" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-zinc-900 text-white hover:bg-zinc-800 h-9 px-4 py-2 gap-2">
+          <Link href="/payroll/new" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-indigo-600 text-white hover:bg-indigo-700 h-9 px-4 py-2 gap-2">
             <Calculator className="h-4 w-4" /> Run Payroll
           </Link>
         </div>
@@ -205,72 +205,72 @@ export default async function DashboardPage() {
 
       {/* KPI Ribbon — 6 cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        <Card className="shadow-sm">
+        <Card className="shadow-sm border-slate-200">
           <CardContent className="p-4 flex flex-col gap-3">
-            <Users className="h-4 w-4 text-zinc-400" />
+            <Users className="h-4 w-4 text-slate-400" />
             <div>
-              <p className="text-xl font-bold text-zinc-900">{activeEmployees}</p>
-              <p className="text-xs text-zinc-500">Employees</p>
+              <p className="text-xl font-bold text-slate-900">{activeEmployees}</p>
+              <p className="text-xs text-slate-500">Employees</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="shadow-sm">
+        <Card className="shadow-sm border-slate-200">
           <CardContent className="p-4 flex flex-col gap-3">
-            <Banknote className="h-4 w-4 text-zinc-400" />
+            <Banknote className="h-4 w-4 text-slate-400" />
             <div>
-              <p className="text-xl font-bold text-zinc-900 truncate">
+              <p className="text-xl font-bold text-slate-900 truncate">
                 {latestRun ? centavosToDisplay(latestRun.total_gross) : '₱0.00'}
               </p>
-              <p className="text-xs text-zinc-500">Gross Payroll</p>
+              <p className="text-xs text-slate-500">Gross Payroll</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="shadow-sm">
+        <Card className="shadow-sm border-slate-200">
           <CardContent className="p-4 flex flex-col gap-3">
-            <TrendingUp className="h-4 w-4 text-blue-400" />
+            <TrendingUp className="h-4 w-4 text-indigo-400" />
             <div>
-              <p className="text-xl font-bold text-blue-700 truncate">{centavosToDisplay(totalAR)}</p>
-              <p className="text-xs text-zinc-500">AR (Receivables)</p>
+              <p className="text-xl font-bold text-indigo-700 truncate">{centavosToDisplay(totalAR)}</p>
+              <p className="text-xs text-slate-500">AR (Receivables)</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="shadow-sm">
+        <Card className="shadow-sm border-slate-200">
           <CardContent className="p-4 flex flex-col gap-3">
             <TrendingDown className="h-4 w-4 text-amber-400" />
             <div>
               <p className="text-xl font-bold text-amber-700 truncate">{centavosToDisplay(totalAP)}</p>
-              <p className="text-xs text-zinc-500">AP (Payables)</p>
+              <p className="text-xs text-slate-500">AP (Payables)</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className={cn("shadow-sm", vatPayable > 0 ? "border-red-200" : "")}>
+        <Card className={cn("shadow-sm border-slate-200", vatPayable > 0 ? "border-red-200" : "")}>
           <CardContent className="p-4 flex flex-col gap-3">
             <Receipt className="h-4 w-4 text-red-400" />
             <div>
-              <p className={cn("text-xl font-bold truncate", vatPayable >= 0 ? "text-red-700" : "text-green-700")}>
+              <p className={cn("text-xl font-bold truncate", vatPayable >= 0 ? "text-red-700" : "text-emerald-700")}>
                 {centavosToDisplay(Math.abs(vatPayable))}
               </p>
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs text-slate-500">
                 {vatPayable >= 0 ? `VAT Payable Q${currentQuarter}` : `Excess Input VAT`}
               </p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className={cn("shadow-sm", overdueCount > 0 ? "border-red-200" : dueSoonCount > 0 ? "border-amber-200" : "")}>
+        <Card className={cn("shadow-sm border-slate-200", overdueCount > 0 ? "border-red-200" : dueSoonCount > 0 ? "border-amber-200" : "")}>
           <CardContent className="p-4 flex flex-col gap-3">
             {overdueCount > 0
               ? <AlertCircle className="h-4 w-4 text-red-500" />
               : dueSoonCount > 0
               ? <Clock className="h-4 w-4 text-amber-500" />
-              : <FileText className="h-4 w-4 text-zinc-400" />}
+              : <FileText className="h-4 w-4 text-slate-400" />}
             <div>
-              <p className="text-xl font-bold text-zinc-900">{pendingRemittances.length}</p>
-              <p className="text-xs text-zinc-500">
+              <p className="text-xl font-bold text-slate-900">{pendingRemittances.length}</p>
+              <p className="text-xs text-slate-500">
                 {overdueCount > 0 ? `${overdueCount} overdue` : dueSoonCount > 0 ? `${dueSoonCount} due soon` : 'Remittances'}
               </p>
             </div>
@@ -279,11 +279,11 @@ export default async function DashboardPage() {
       </div>
 
       {/* Cash Flow Chart */}
-      <Card className="shadow-sm">
+      <Card className="shadow-sm border-slate-200">
         <CardContent className="p-5">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-semibold text-zinc-900">Cash Flow — Last 6 Months</h2>
-            <Link href="/reports/pl" className="text-xs text-blue-600 hover:underline">View P&amp;L</Link>
+            <h2 className="text-sm font-semibold text-slate-900">Cash Flow — Last 6 Months</h2>
+            <Link href="/reports/pl" className="text-xs text-indigo-600 hover:underline">View P&amp;L</Link>
           </div>
           <CashFlowChart data={cfMonths} />
         </CardContent>
@@ -295,33 +295,33 @@ export default async function DashboardPage() {
         {/* AR — Outstanding Invoices */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-zinc-900">AR — Accounts Receivable</h2>
-            <Link href="/invoices" className="text-xs text-blue-600 hover:underline flex items-center gap-1">
+            <h2 className="text-sm font-semibold text-slate-900">AR — Accounts Receivable</h2>
+            <Link href="/invoices" className="text-xs text-indigo-600 hover:underline flex items-center gap-1">
               View all <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           {totalAR > 0 && (
-            <div className="border rounded-xl bg-white px-4 py-3 space-y-2">
-              <div className="flex justify-between text-xs text-zinc-500">
-                <span className="text-green-600 font-medium">Open · {centavosToDisplay(arOpen)}</span>
+            <div className="border border-slate-200 rounded-xl bg-white px-4 py-3 space-y-2">
+              <div className="flex justify-between text-xs text-slate-500">
+                <span className="text-emerald-600 font-medium">Open · {centavosToDisplay(arOpen)}</span>
                 <span className="text-red-500 font-medium">Overdue · {centavosToDisplay(arOverdue)}</span>
               </div>
-              <div className="h-2 w-full rounded-full bg-zinc-100 overflow-hidden flex">
+              <div className="h-2 w-full rounded-full bg-slate-100 overflow-hidden flex">
                 <div
-                  className="h-full bg-green-400 transition-all"
+                  className="h-full bg-emerald-500 transition-all"
                   style={{ width: `${totalAR > 0 ? (arOpen / totalAR) * 100 : 0}%` }}
                 />
                 <div className="h-full bg-red-400 flex-1" />
               </div>
-              <p className="text-xs text-zinc-400 text-right">{centavosToDisplay(totalAR)} total outstanding</p>
+              <p className="text-xs text-slate-400 text-right">{centavosToDisplay(totalAR)} total outstanding</p>
             </div>
           )}
 
-          <div className="border rounded-xl bg-white overflow-hidden">
+          <div className="border border-slate-200 rounded-xl bg-white overflow-hidden">
             {!arInvoices.length ? (
               <div className="px-5 py-8 text-center">
-                <TrendingUp className="h-6 w-6 text-zinc-300 mx-auto mb-2" />
-                <p className="text-xs text-zinc-500">No outstanding invoices</p>
+                <TrendingUp className="h-6 w-6 text-slate-300 mx-auto mb-2" />
+                <p className="text-xs text-slate-500">No outstanding invoices</p>
               </div>
             ) : (
               <div className="divide-y text-sm">
@@ -330,14 +330,14 @@ export default async function DashboardPage() {
                   const balance = inv.total_amount - inv.paid_amount
                   const overdue = inv.due_date ? isOverdue(inv.due_date) : false
                   return (
-                    <Link key={inv.id} href={`/invoices/${inv.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-gray-50">
+                    <Link key={inv.id} href={`/invoices/${inv.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-slate-50">
                       <div className="min-w-0">
-                        <p className="font-medium text-zinc-900 truncate">{client?.name ?? '—'}</p>
-                        <p className={cn("text-xs", overdue ? "text-red-500" : "text-zinc-400")}>
+                        <p className="font-medium text-slate-900 truncate">{client?.name ?? '—'}</p>
+                        <p className={cn("text-xs", overdue ? "text-red-500" : "text-slate-400")}>
                           {inv.due_date ? (overdue ? `Overdue · ${inv.due_date}` : `Due ${inv.due_date}`) : inv.invoice_date}
                         </p>
                       </div>
-                      <span className={cn("font-mono text-xs font-semibold ml-3", overdue ? "text-red-600" : "text-blue-700")}>
+                      <span className={cn("font-mono text-xs font-semibold ml-3", overdue ? "text-red-600" : "text-indigo-700")}>
                         {centavosToDisplay(balance)}
                       </span>
                     </Link>
@@ -351,16 +351,16 @@ export default async function DashboardPage() {
         {/* AP — Outstanding Bills */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-semibold text-zinc-900">AP — Accounts Payable</h2>
-            <Link href="/bills" className="text-xs text-blue-600 hover:underline flex items-center gap-1">
+            <h2 className="text-sm font-semibold text-slate-900">AP — Accounts Payable</h2>
+            <Link href="/bills" className="text-xs text-indigo-600 hover:underline flex items-center gap-1">
               View all <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
-          <div className="border rounded-xl bg-white overflow-hidden">
+          <div className="border border-slate-200 rounded-xl bg-white overflow-hidden">
             {!apBills.length ? (
               <div className="px-5 py-8 text-center">
-                <TrendingDown className="h-6 w-6 text-zinc-300 mx-auto mb-2" />
-                <p className="text-xs text-zinc-500">No outstanding bills</p>
+                <TrendingDown className="h-6 w-6 text-slate-300 mx-auto mb-2" />
+                <p className="text-xs text-slate-500">No outstanding bills</p>
               </div>
             ) : (
               <div className="divide-y text-sm">
@@ -369,10 +369,10 @@ export default async function DashboardPage() {
                   const balance = bill.total_amount - (bill.paid_amount ?? 0)
                   const overdue = bill.due_date ? isOverdue(bill.due_date) : false
                   return (
-                    <Link key={bill.id} href={`/bills/${bill.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-gray-50">
+                    <Link key={bill.id} href={`/bills/${bill.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-slate-50">
                       <div className="min-w-0">
-                        <p className="font-medium text-zinc-900 truncate">{vendor?.name ?? bill.bill_number ?? '—'}</p>
-                        <p className={cn("text-xs", overdue ? "text-red-500" : "text-zinc-400")}>
+                        <p className="font-medium text-slate-900 truncate">{vendor?.name ?? bill.bill_number ?? '—'}</p>
+                        <p className={cn("text-xs", overdue ? "text-red-500" : "text-slate-400")}>
                           {bill.due_date ? (overdue ? `Overdue · ${bill.due_date}` : `Due ${bill.due_date}`) : bill.expense_date}
                         </p>
                       </div>
@@ -392,39 +392,39 @@ export default async function DashboardPage() {
           {/* Payroll summary */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-zinc-900">Latest Payroll</h2>
+              <h2 className="text-sm font-semibold text-slate-900">Latest Payroll</h2>
               {latestRun && (
-                <Link href={`/payroll/${latestRun.id}`} className="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <Link href={`/payroll/${latestRun.id}`} className="text-xs text-indigo-600 hover:underline flex items-center gap-1">
                   View <ArrowRight className="h-3 w-3" />
                 </Link>
               )}
             </div>
-            <div className="border rounded-xl bg-white p-4">
+            <div className="border border-slate-200 rounded-xl bg-white p-4">
               {latestRun ? (
                 <div className="space-y-3">
-                  <p className="text-xs text-zinc-500">{latestRun.period_label}</p>
+                  <p className="text-xs text-slate-500">{latestRun.period_label}</p>
                   <div className="flex justify-between text-sm">
-                    <span className="text-zinc-500">Gross</span>
+                    <span className="text-slate-500">Gross</span>
                     <span className="font-mono font-semibold">{centavosToDisplay(latestRun.total_gross)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-zinc-500">Net Pay</span>
-                    <span className="font-mono font-semibold text-green-700">{centavosToDisplay(latestRun.total_net)}</span>
+                    <span className="text-slate-500">Net Pay</span>
+                    <span className="font-mono font-semibold text-emerald-700">{centavosToDisplay(latestRun.total_net)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-zinc-500">Deductions</span>
-                    <span className="font-mono text-zinc-500">{centavosToDisplay(latestRun.total_gross - latestRun.total_net)}</span>
+                    <span className="text-slate-500">Deductions</span>
+                    <span className="font-mono text-slate-500">{centavosToDisplay(latestRun.total_gross - latestRun.total_net)}</span>
                   </div>
-                  <div className="w-full bg-zinc-100 rounded h-1.5 overflow-hidden flex mt-1">
-                    <div className="bg-green-500 h-full" style={{ width: `${(latestRun.total_net / latestRun.total_gross) * 100}%` }} />
-                    <div className="bg-zinc-300 h-full flex-1" />
+                  <div className="w-full bg-slate-100 rounded h-1.5 overflow-hidden flex mt-1">
+                    <div className="bg-emerald-500 h-full" style={{ width: `${(latestRun.total_net / latestRun.total_gross) * 100}%` }} />
+                    <div className="bg-slate-300 h-full flex-1" />
                   </div>
                 </div>
               ) : (
                 <div className="text-center py-4">
-                  <Calculator className="h-5 w-5 text-zinc-300 mx-auto mb-2" />
-                  <p className="text-xs text-zinc-500 mb-3">No payroll runs yet</p>
-                  <Link href="/payroll/new" className="text-xs text-blue-600 hover:underline">Run payroll →</Link>
+                  <Calculator className="h-5 w-5 text-slate-300 mx-auto mb-2" />
+                  <p className="text-xs text-slate-500 mb-3">No payroll runs yet</p>
+                  <Link href="/payroll/new" className="text-xs text-indigo-600 hover:underline">Run payroll →</Link>
                 </div>
               )}
             </div>
@@ -433,16 +433,16 @@ export default async function DashboardPage() {
           {/* Upcoming remittance deadlines */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-zinc-900">Upcoming Deadlines</h2>
-              <Link href="/remittances" className="text-xs text-blue-600 hover:underline flex items-center gap-1">
+              <h2 className="text-sm font-semibold text-slate-900">Upcoming Deadlines</h2>
+              <Link href="/remittances" className="text-xs text-indigo-600 hover:underline flex items-center gap-1">
                 View all <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
-            <div className="border rounded-xl bg-white overflow-hidden">
+            <div className="border border-slate-200 rounded-xl bg-white overflow-hidden">
               {!pendingRemittances.length ? (
                 <div className="px-5 py-8 text-center">
-                  <CheckCircle2 className="h-6 w-6 text-zinc-300 mx-auto mb-2" />
-                  <p className="text-xs text-zinc-500">All caught up!</p>
+                  <CheckCircle2 className="h-6 w-6 text-slate-300 mx-auto mb-2" />
+                  <p className="text-xs text-slate-500">All caught up!</p>
                 </div>
               ) : (
                 <div className="divide-y text-sm">
@@ -452,12 +452,12 @@ export default async function DashboardPage() {
                     return (
                       <div key={r.id} className="px-4 py-3 flex items-center justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="font-medium text-zinc-900 truncate text-xs">{r.agency} · {r.form_number}</p>
-                          <p className={cn("text-xs mt-0.5", overdue ? "text-red-500" : soon ? "text-amber-600" : "text-zinc-400")}>
+                          <p className="font-medium text-slate-900 truncate text-xs">{r.agency} · {r.form_number}</p>
+                          <p className={cn("text-xs mt-0.5", overdue ? "text-red-500" : soon ? "text-amber-600" : "text-slate-400")}>
                             {overdue ? 'Overdue' : soon ? 'Due soon'  : 'Pending'} · {formatDate(r.due_date)}
                           </p>
                         </div>
-                        <span className="text-xs font-mono font-semibold text-zinc-700 shrink-0">{centavosToDisplay(r.total_amount)}</span>
+                        <span className="text-xs font-mono font-semibold text-slate-700 shrink-0">{centavosToDisplay(r.total_amount)}</span>
                       </div>
                     )
                   })}

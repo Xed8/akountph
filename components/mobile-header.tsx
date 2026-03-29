@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Menu, X, Building2 } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { Sidebar } from './sidebar'
 
 interface MobileHeaderProps {
@@ -13,19 +13,19 @@ export function MobileHeader({ orgName }: MobileHeaderProps) {
 
   return (
     <>
-      <header className="flex md:hidden h-14 items-center px-4 border-b border-zinc-200 bg-zinc-50 gap-3">
+      <header className="flex md:hidden h-14 items-center px-4 border-b border-[#1e3a58] bg-[#0B1F3A] gap-3">
         <button
           onClick={() => setOpen(true)}
-          className="p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100"
+          className="p-1.5 rounded-md text-[#7a9bbf] hover:bg-[#1a3554]"
           aria-label="Open menu"
         >
           <Menu className="h-5 w-5" />
         </button>
         <div className="flex items-center gap-2">
-          <div className="flex items-center justify-center w-6 h-6 rounded bg-zinc-900 text-white">
-            <Building2 className="w-3.5 h-3.5" />
+          <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-[#00C48C] text-white font-extrabold text-sm">
+            ₱
           </div>
-          <span className="text-sm font-semibold text-zinc-900 truncate">{orgName}</span>
+          <span className="text-sm font-bold text-white truncate">{orgName}</span>
         </div>
       </header>
 
@@ -36,7 +36,7 @@ export function MobileHeader({ orgName }: MobileHeaderProps) {
             <div className="relative">
               <button
                 onClick={() => setOpen(false)}
-                className="absolute top-3 right-3 p-1.5 rounded-md text-zinc-400 hover:text-zinc-600 z-10"
+                className="absolute top-3 right-3 p-1.5 rounded-md text-[#7a9bbf] hover:text-white z-10"
                 aria-label="Close menu"
               >
                 <X className="h-4 w-4" />
