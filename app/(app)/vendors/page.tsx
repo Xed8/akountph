@@ -17,8 +17,8 @@ export default async function VendorsPage() {
   const list = vendors ?? []
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-8 space-y-8">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Vendors</h1>
           <p className="text-gray-500 mt-1">Manage your suppliers and their default tax settings.</p>

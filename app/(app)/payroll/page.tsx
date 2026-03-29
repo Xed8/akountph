@@ -24,11 +24,11 @@ export default async function PayrollPage() {
     .order('period_month', { ascending: false })
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 pb-24">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <div className="p-8 space-y-8 pb-24">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 mb-1">Payroll History</h1>
-          <p className="text-sm text-zinc-500">
+          <h1 className="text-2xl font-bold text-gray-900">Payroll History</h1>
+          <p className="text-gray-500 mt-1">
             Manage your payroll runs, view historical data, and generate payslips.
           </p>
         </div>
@@ -39,51 +39,51 @@ export default async function PayrollPage() {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mb-2">
-         <div className="px-3 py-1.5 bg-white border border-zinc-200 rounded-md shadow-sm flex items-center gap-2">
-            <Search className="w-4 h-4 text-zinc-400" />
-            <input type="text" placeholder="Search period..." className="bg-transparent border-none outline-none text-sm text-zinc-900 placeholder:text-zinc-400 w-64" disabled />
+      <div className="flex items-center gap-4">
+         <div className="px-3 py-1.5 bg-white border border-gray-200 rounded-md shadow-sm flex items-center gap-2">
+            <Search className="w-4 h-4 text-gray-400" />
+            <input type="text" placeholder="Search period..." className="bg-transparent border-none outline-none text-sm text-gray-900 placeholder:text-gray-400 w-64" disabled />
          </div>
-         <div className="px-3 py-1.5 bg-zinc-50 text-zinc-600 rounded-md text-sm font-medium border border-zinc-200">
+         <div className="px-3 py-1.5 bg-gray-50 text-gray-600 rounded-md text-sm font-medium border border-gray-200">
             {runs?.length ?? 0} {runs?.length === 1 ? 'Run' : 'Runs'}
          </div>
       </div>
 
       {!runs?.length ? (
-        <div className="border border-zinc-200 rounded-lg bg-zinc-50 border-dashed p-12 text-center h-[300px] flex flex-col items-center justify-center">
-          <Calculator className="h-8 w-8 text-zinc-400 mb-3" />
-          <h3 className="text-sm font-semibold text-zinc-900 mb-1">No payroll runs yet</h3>
-          <p className="text-xs text-zinc-500 mb-6 max-w-sm mx-auto">Run your first payroll to compute payslips and generate accurate tax form data.</p>
+        <div className="border border-gray-200 rounded-lg bg-gray-50 border-dashed p-12 text-center h-[300px] flex flex-col items-center justify-center">
+          <Calculator className="h-8 w-8 text-gray-400 mb-3" />
+          <h3 className="text-sm font-semibold text-gray-900 mb-1">No payroll runs yet</h3>
+          <p className="text-xs text-gray-500 mb-6 max-w-sm mx-auto">Run your first payroll to compute payslips and generate accurate tax form data.</p>
           <Link href="/payroll/new" className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-blue-600 text-white hover:bg-blue-700 h-9 px-4 py-2">
             Start First Run
           </Link>
         </div>
       ) : (
-        <div className="border border-zinc-200 rounded-lg overflow-hidden bg-white shadow-sm">
+        <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
           <Table>
-            <TableHeader className="bg-zinc-50 border-b border-zinc-200">
-              <TableRow className="hover:bg-zinc-50 border-none">
-                <TableHead className="font-medium text-zinc-500 text-xs h-10">Payroll Period</TableHead>
-                <TableHead className="font-medium text-zinc-500 text-xs">Status</TableHead>
-                <TableHead className="text-right font-medium text-zinc-500 text-xs">Gross Pay</TableHead>
-                <TableHead className="text-right font-medium text-zinc-500 text-xs">Withholding Tax</TableHead>
-                <TableHead className="text-right font-medium text-zinc-500 text-xs">Net Pay</TableHead>
+            <TableHeader className="bg-gray-50 border-b border-gray-200">
+              <TableRow className="hover:bg-gray-50 border-none">
+                <TableHead className="font-medium text-gray-500 text-xs h-10">Payroll Period</TableHead>
+                <TableHead className="font-medium text-gray-500 text-xs">Status</TableHead>
+                <TableHead className="text-right font-medium text-gray-500 text-xs">Gross Pay</TableHead>
+                <TableHead className="text-right font-medium text-gray-500 text-xs">Withholding Tax</TableHead>
+                <TableHead className="text-right font-medium text-gray-500 text-xs">Net Pay</TableHead>
                 <TableHead className="w-[60px]"></TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="divide-y divide-zinc-100">
+            <TableBody className="divide-y divide-gray-100">
               {runs.map(run => (
-                <TableRow key={run.id} className="hover:bg-zinc-50 transition-colors border-none">
+                <TableRow key={run.id} className="hover:bg-gray-50 transition-colors border-none">
                   <TableCell className="py-3">
                     <div className="flex items-center gap-3">
-                       <div className="w-8 h-8 rounded bg-zinc-100 border border-zinc-200 flex items-center justify-center text-zinc-500 shrink-0">
+                       <div className="w-8 h-8 rounded bg-gray-100 border border-gray-200 flex items-center justify-center text-gray-500 shrink-0">
                           <FileText className="w-4 h-4" />
                        </div>
                        <div>
-                         <p className="font-medium text-zinc-900 text-sm">
+                         <p className="font-medium text-gray-900 text-sm">
                            {run.period_label}
                          </p>
-                         <p className="text-xs text-zinc-500">ID: {run.id.split('-')[0].toUpperCase()}</p>
+                         <p className="text-xs text-gray-500">ID: {run.id.split('-')[0].toUpperCase()}</p>
                        </div>
                     </div>
                   </TableCell>
@@ -93,7 +93,7 @@ export default async function PayrollPage() {
                     </span>
                   </TableCell>
                   <TableCell className="text-right">
-                     <p className="font-medium text-zinc-900 text-sm">{centavosToDisplay(run.total_gross)}</p>
+                     <p className="font-medium text-gray-900 text-sm">{centavosToDisplay(run.total_gross)}</p>
                   </TableCell>
                   <TableCell className="text-right">
                      <p className="font-medium text-red-600 text-sm">{centavosToDisplay(run.total_wt)}</p>
@@ -102,7 +102,7 @@ export default async function PayrollPage() {
                      <p className="font-medium text-blue-600 text-sm">{centavosToDisplay(run.total_net)}</p>
                   </TableCell>
                   <TableCell className="text-right pr-4">
-                    <Link href={`/payroll/${run.id}`} className="inline-flex items-center justify-center w-8 h-8 rounded text-zinc-400 hover:bg-zinc-100 hover:text-blue-600 transition-colors">
+                    <Link href={`/payroll/${run.id}`} className="inline-flex items-center justify-center w-8 h-8 rounded text-gray-400 hover:bg-gray-100 hover:text-blue-600 transition-colors">
                       <ArrowRight className="h-4 w-4" />
                     </Link>
                   </TableCell>

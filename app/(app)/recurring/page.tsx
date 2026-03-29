@@ -29,8 +29,8 @@ export default async function RecurringPage() {
   const today = new Date().toISOString().split('T')[0]
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-8 space-y-8">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Recurring</h1>
           <p className="text-gray-500 mt-1">Templates for invoices and bills that repeat on a schedule.</p>

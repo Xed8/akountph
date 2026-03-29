@@ -59,8 +59,8 @@ export default async function BillsPage() {
   const aging = apAgingBuckets(allBills)
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-8 space-y-8">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Bills</h1>
           <p className="text-gray-500 mt-1">Track money you owe to vendors.</p>
@@ -72,7 +72,7 @@ export default async function BillsPage() {
 
       {/* AP Aging Summary */}
       {aging.total > 0 && (
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
           {[
             { label: 'Total Payable', value: aging.total, color: 'text-gray-900' },
             { label: 'Current (0–30)', value: aging.current, color: 'text-green-600' },

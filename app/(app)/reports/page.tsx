@@ -104,17 +104,17 @@ export default async function ReportsPage() {
   const categories = [...new Set(BIR_REPORTS.map(r => r.category))]
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8 pb-24">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+    <div className="p-8 space-y-8 pb-24">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 mb-1">Reports Center</h1>
-          <p className="text-sm text-zinc-500">
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Reports Center</h1>
+          <p className="text-gray-500">
             Generate, download, and track your essential BIR filing documents.
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <div className="px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-md shadow-sm flex items-center gap-2 text-white">
-             <Calendar className="w-4 h-4 text-zinc-400" />
+          <div className="px-4 py-2 bg-gray-900 border border-gray-800 rounded-md shadow-sm flex items-center gap-2 text-white">
+             <Calendar className="w-4 h-4 text-gray-400" />
              <span className="text-sm font-medium whitespace-nowrap">Tax Year {currentYear}</span>
           </div>
         </div>
@@ -123,41 +123,41 @@ export default async function ReportsPage() {
       <div className="grid grid-cols-1 gap-12 pt-4">
         {categories.map(cat => (
           <section key={cat}>
-            <div className="flex items-center gap-2 mb-6 text-zinc-900">
-              <FolderOpen className="w-5 h-5 text-zinc-400" />
-              <h2 className="text-lg font-semibold tracking-tight">{cat} Reports</h2>
+            <div className="flex items-center gap-2 mb-6 text-gray-900">
+              <FolderOpen className="w-5 h-5 text-gray-400" />
+              <h2 className="text-lg font-semibold">{cat} Reports</h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
               {BIR_REPORTS.filter(r => r.category === cat).map(report => (
-                <Card key={report.form} className="flex flex-col gap-4 p-5 border border-zinc-200 shadow-sm rounded-lg hover:shadow-md transition-shadow bg-white group">
+                <Card key={report.form} className="flex flex-col gap-4 p-5 border border-gray-200 rounded-lg hover:shadow-md transition-shadow bg-white group">
                   <div className="flex items-start justify-between">
-                    <div className="flex items-center justify-center w-10 h-10 rounded-md bg-zinc-50 border border-zinc-200 shadow-sm shrink-0">
-                      <FileText className="h-5 w-5 text-zinc-500 group-hover:text-amber-600 transition-colors" />
+                    <div className="flex items-center justify-center w-10 h-10 rounded-md bg-gray-50 border border-gray-200 shadow-sm shrink-0">
+                      <FileText className="h-5 w-5 text-gray-500 group-hover:text-amber-600 transition-colors" />
                     </div>
                     {report.action ? (
                       <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-emerald-50 text-emerald-700">Available</span>
                     ) : (
-                      <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-zinc-100 text-zinc-600">Coming Soon</span>
+                      <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-gray-100 text-gray-600">Coming Soon</span>
                     )}
                   </div>
                   
                   <div className="flex-1">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className="font-semibold text-zinc-900 text-sm">Form {report.form}</span>
+                      <span className="font-semibold text-gray-900 text-sm">Form {report.form}</span>
                     </div>
-                    <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2" title={report.name}>
+                    <p className="text-xs text-gray-500 leading-relaxed line-clamp-2" title={report.name}>
                        {report.name}
                     </p>
                   </div>
                   
-                  <div className="pt-4 border-t border-zinc-100 flex flex-col gap-2">
+                  <div className="pt-4 border-t border-gray-100 flex flex-col gap-2">
                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-zinc-500 font-medium tracking-wide uppercase">Frequency</span>
-                        <span className="font-medium text-zinc-900">{report.frequency}</span>
+                        <span className="text-gray-500 font-medium tracking-wide uppercase">Frequency</span>
+                        <span className="font-medium text-gray-900">{report.frequency}</span>
                      </div>
                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-zinc-500 font-medium tracking-wide uppercase">Deadline</span>
+                        <span className="text-gray-500 font-medium tracking-wide uppercase">Deadline</span>
                         <span className="font-medium text-amber-700">{report.due}</span>
                      </div>
                   </div>

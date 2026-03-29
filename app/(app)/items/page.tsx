@@ -16,8 +16,8 @@ export default async function ItemsPage() {
     .order('name')
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-8 space-y-8">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Products & Services</h1>
           <p className="text-gray-500 mt-1">Items you can add to invoices.</p>

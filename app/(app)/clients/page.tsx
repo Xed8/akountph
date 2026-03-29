@@ -28,8 +28,8 @@ export default async function ClientsPage() {
   })
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-8 space-y-8">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Clients</h1>
           <p className="text-gray-500 mt-1">Manage your customers and track what they owe.</p>
