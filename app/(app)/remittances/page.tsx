@@ -3,6 +3,7 @@ import { centavosToDisplay } from '@/lib/formatting/currency'
 import { formatDate, isOverdue, isDueSoon } from '@/lib/formatting/dates'
 import { markRemittancePaid } from '@/app/actions/remittances'
 import { Button } from '@/components/ui/button'
+import { SubmitOnceButton } from '@/components/submit-once-button'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 import { FileText, Clock, AlertCircle, CheckCircle2 } from 'lucide-react'
@@ -189,9 +190,9 @@ function RemittanceCard({ r }: { r: Remittance }) {
                 placeholder="Reference / OR No."
                 className="text-xs h-8 w-full sm:w-44 bg-white"
               />
-              <Button type="submit" size="sm" className="h-8 w-full bg-zinc-900 border text-white font-medium hover:bg-zinc-800 transition-colors">
+              <SubmitOnceButton className="h-8 w-full rounded-md bg-zinc-900 border text-white text-xs font-medium hover:bg-zinc-800 transition-colors px-3">
                 Submit Payment
-              </Button>
+              </SubmitOnceButton>
             </form>
           </div>
         )}

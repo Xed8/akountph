@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChevronLeft } from 'lucide-react'
+import { SubmitOnceButton } from '@/components/submit-once-button'
 
 export default async function PayrollRunPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -43,7 +44,9 @@ export default async function PayrollRunPage({ params }: { params: Promise<{ id:
         </div>
         {run.status === 'draft' && (
           <form action={finalizePayrollRun.bind(null, id)}>
-            <Button type="submit" variant="default">Finalize Payroll</Button>
+            <SubmitOnceButton className="inline-flex items-center justify-center rounded-md bg-zinc-900 text-white px-4 py-2 text-sm font-medium hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed">
+              Finalize Payroll
+            </SubmitOnceButton>
           </form>
         )}
       </div>

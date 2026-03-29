@@ -3,6 +3,7 @@ import { CategoryForm } from '@/components/category-form'
 import { createCategory, deleteCategory } from '@/app/actions/categories'
 import { Badge } from '@/components/ui/badge'
 import { Trash2 } from 'lucide-react'
+import { ConfirmButton } from '@/components/confirm-button'
 
 export default async function CategoriesPage() {
   const { supabase, orgId } = await requireOrg()
@@ -53,9 +54,9 @@ export default async function CategoriesPage() {
                   </td>
                   <td className="px-4 py-3 text-right">
                     <form action={deleteCategory.bind(null, cat.id)}>
-                      <button type="submit" className="text-gray-400 hover:text-red-500 transition-colors">
+                      <ConfirmButton message="Delete this category?" className="text-gray-400 hover:text-red-500 transition-colors">
                         <Trash2 className="h-4 w-4" />
-                      </button>
+                      </ConfirmButton>
                     </form>
                   </td>
                 </tr>
@@ -87,9 +88,9 @@ export default async function CategoriesPage() {
                   </td>
                   <td className="px-4 py-3 text-right">
                     <form action={deleteCategory.bind(null, cat.id)}>
-                      <button type="submit" className="text-gray-400 hover:text-red-500 transition-colors">
+                      <ConfirmButton message="Delete this category?" className="text-gray-400 hover:text-red-500 transition-colors">
                         <Trash2 className="h-4 w-4" />
-                      </button>
+                      </ConfirmButton>
                     </form>
                   </td>
                 </tr>
