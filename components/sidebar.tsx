@@ -41,6 +41,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/vendors', label: 'Vendors', icon: Truck },
   { href: '/bills', label: 'Bills', icon: Receipt },
   { href: '/recurring', label: 'Recurring', icon: RefreshCw },
+  { href: '/inventory', label: 'Inventory', icon: Package },
   { label: 'OTHER', divider: true },
   { href: '/bank', label: 'Bank Recon', icon: Landmark },
   { href: '/reports', label: 'Reports', icon: BarChart2 },
