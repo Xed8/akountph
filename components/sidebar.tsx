@@ -17,6 +17,7 @@ import {
   BarChart2,
   Truck,
   RefreshCw,
+  Landmark,
 } from 'lucide-react'
 import { logout } from '@/app/actions/auth'
 
@@ -41,6 +42,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/bills', label: 'Bills', icon: Receipt },
   { href: '/recurring', label: 'Recurring', icon: RefreshCw },
   { label: 'OTHER', divider: true },
+  { href: '/bank', label: 'Bank Recon', icon: Landmark },
   { href: '/reports', label: 'Reports', icon: BarChart2 },
 ]
 
