@@ -18,6 +18,7 @@ import {
   Truck,
   RefreshCw,
   Landmark,
+  BellRing,
 } from 'lucide-react'
 import { logout } from '@/app/actions/auth'
 
@@ -43,6 +44,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: '/recurring', label: 'Recurring', icon: RefreshCw },
   { href: '/inventory', label: 'Inventory', icon: Package },
   { label: 'OTHER', divider: true },
+  { href: '/reminders', label: 'Reminders', icon: BellRing },
   { href: '/bank', label: 'Bank Recon', icon: Landmark },
   { href: '/reports', label: 'Reports', icon: BarChart2 },
 ]
