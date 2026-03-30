@@ -69,6 +69,47 @@ export function OrgSettingsForm({ org }: { org: Record<string, unknown> }) {
         </Select>
       </div>
 
+      {/* BIR Official Receipt / E-Invoicing */}
+      <div className="pt-4 border-t border-zinc-200">
+        <p className="text-sm font-semibold text-zinc-700 mb-3">BIR Official Receipt &amp; E-Invoicing</p>
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="or_number_prefix">OR Number Prefix</Label>
+              <Input id="or_number_prefix" name="or_number_prefix" placeholder="e.g. OR-2025-" defaultValue={(org.or_number_prefix as string) ?? ''} />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="bir_atp_number">Authority to Print (ATP) No.</Label>
+              <Input id="bir_atp_number" name="bir_atp_number" placeholder="e.g. 3AU000123456" defaultValue={(org.bir_atp_number as string) ?? ''} />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="or_series_from">OR Series — From</Label>
+              <Input id="or_series_from" name="or_series_from" placeholder="e.g. 0000001" defaultValue={(org.or_series_from as string) ?? ''} />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="or_series_to">OR Series — To</Label>
+              <Input id="or_series_to" name="or_series_to" placeholder="e.g. 0100000" defaultValue={(org.or_series_to as string) ?? ''} />
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="bir_accreditation_no">BIR CAS Accreditation No.</Label>
+            <Input id="bir_accreditation_no" name="bir_accreditation_no" placeholder="e.g. 08-000123-456-2025" defaultValue={(org.bir_accreditation_no as string) ?? ''} />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="bir_cas_accredited">CAS Accreditation Status</Label>
+            <Select name="bir_cas_accredited" defaultValue={String(org.bir_cas_accredited ?? false)}>
+              <SelectTrigger id="bir_cas_accredited"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="false">Not CAS-accredited</SelectItem>
+                <SelectItem value="true">BIR CAS-accredited</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
+
       <Button type="submit" disabled={pending}>{pending ? 'Saving…' : 'Save Changes'}</Button>
     </form>
   )
